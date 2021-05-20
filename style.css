@@ -14,8 +14,9 @@
 */
 
 /* Putuivan font's choice */
-@import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap');
 
+/* Main body of the example*/
 body {
   background:rgb(28,28,28);
   color:#FFF;
@@ -23,33 +24,30 @@ body {
   --chromatic-distance-time:8ms;
   /* Total animation time */
   --animation-time:5s;
+  /* default unit 1% of viewport width, in portrait resolutions changes to 1% of viewport height */
+  --unit:1vw;
   font-size:10px;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;;
-/*font-family: Arial, Helvetica, sans-serif;*/
+  font-family: 'Quicksand', sans-serif;
   padding:calc(2 * var(--unit));
 }
 
+/* Raild for each filter */
 .Rail {
   position:relative;
   z-index:1;
 }
 
+/* Description text for each rail */
 .Rail::before {
   transform: translate(-50%, -50%);  
-
   position:absolute;
   content:attr(Texte);
-  color:#FFF;
   left: 50%;
   top: 50%;
-/*  font-family: 'Antic Slab', serif;*/
-  font-family: 'Dela Gothic One', cursive;
   white-space: nowrap;
-  color:#222;
-
+  color:rgb(240, 240, 240);
   font-size:calc(2.5 * var(--unit));
   text-shadow:0.03vw 0.03vw calc(0.1 * var(--unit)) #CCC;
-
 }
 
 
@@ -71,25 +69,30 @@ body {
   animation-iteration-count:infinite;
 }
 
+/* Blur filter for the last two rails */
 .Blur {
   filter:blur(3px);
 }
 
+/* Green square goes always in the middle (distance-time * 2) */
 .Green {
   border-color:rgb(0, 255, 0);
   animation-delay:calc(var(--chromatic-distance-time) * 2);
 }
 
+/* White square goes always in the middle, because its simulating the 3 rgb squares with 'mix-blend-mode:difference' (distance-time * 2) */
 .White {
   border-color:white;
   animation-delay:calc(var(--chromatic-distance-time) * 2);
 }
 
+/* Blue square goes always at the last position (distance-time * 3) */
 .Blue {
   border-color:rgb(0, 0, 255);
   animation-delay:calc(var(--chromatic-distance-time) * 3);
 }
 
+/* Red square goes always at the first position (distance-time * 1) */
 .Red {
   border-color:rgb(255, 0, 0);
   animation-delay:calc(var(--chromatic-distance-time) * 1);
@@ -97,7 +100,7 @@ body {
 
 
 /* height > width = landscape */
-@media (min-width: 400px) and (orientation:landscape) {
+@media (min-width: 200px) and (orientation:landscape) {
     /* Base unit for landscape is 1vw */
   body {
     --unit:1vw;
@@ -124,19 +127,14 @@ body {
 
   /* animation controls box */
   .Controls {
-    width:35vw;
-    padding:1vw 2vw;
-    border: 1px solid rgb(0, 0, 50);
+    font-size:calc(1.6 * var(--unit));
+    width:calc(60vw); /* 60& of the width is enought for landscape */
   }
   
-  /* values aligned with the sliders */
-  .Controls > div > span {
-    top:-0.2vw;
-  }  
 }
 
 /* width > height = portrait */
-@media (min-height: 400px) and (orientation:portrait) {
+@media (min-height: 200px) and (orientation:portrait) {
   /* Base unit for portrait is 1vh */
   body {
     --unit:1vh;
@@ -145,7 +143,7 @@ body {
   /* space to animate a single effect */
   .Rail {
     display:inline-block;
-    height:70%;
+    height:70vh;
     width:5vh;
     margin-left:2vh;
   }
@@ -167,19 +165,44 @@ body {
 
   /* animation controls box */
   .Controls {
-    width:35vh;
-    padding:1vh 2vh;
-    border:1px solid rgb(0, 0, 50);
-  }
-  
-  /* values aligned with the sliders */
-  .Controls > div > span {
-    top:-0.2vh;
-  }
+    font-size:calc(1.55 * var(--unit));
+    width:calc(80vw); /* whee need all the space to show controls not too much small */
 
+  }
+}
 
+/* UI (sliders) */
+.Controls {
+  position:relative;
+  margin:calc(3 * var(--unit)) auto;
+  left:auto;
+  right:auto;
+  background:rgb(0, 0, 100, 0.7);
+  display:grid;
+  grid-template-columns: auto auto auto;
+/*  grid-template-columns: auto calc(12 * var(--units)) calc(3 * var(--units));*/
+  grid-gap: 1rem;
+  padding:var(--unit) calc(2 * var(--unit));
+  border: 1px solid rgb(0, 0, 50);
 
 }
+
+/* each grid item has the same height and lineheight to center his text verticaly */
+.Controls > div {
+  min-height:1.6rem;
+  line-height:1.6rem;
+  white-space: nowrap;
+}
+
+/* text aling for the first grid column text */
+.Controls > div:nth-child(1), .Controls > div:nth-child(4) {
+  text-align: right;
+}
+
+
+
+
+
 
 
 
@@ -272,31 +295,6 @@ body {
 }
 
 
-
-
-
-
-
-/* UI (sliders) */
-
-.Controls {
-  position:relative;
-  margin:calc(3 * var(--unit)) auto;
-  left:auto;
-  right:auto;
-  background:rgb(0, 0, 100, 0.7);
-}
-
-/* values aligned with the sliders */
-.Controls > div > span {
-  position:relative;
-  font-size:calc(1.5 * var(--unit));
-}
-
-.Controls > div > span:nth-child(1) {
-  display:inline-block;
-  width:60%;
-}
 
 
 
